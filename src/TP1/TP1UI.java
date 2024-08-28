@@ -175,20 +175,18 @@ public class TP1UI extends javax.swing.JFrame {
         int returnVal = jFileChooser1.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             asmFile = jFileChooser1.getSelectedFile();
-            try{
-                System.out.println(new FileReader( asmFile.getAbsolutePath() ));
-                AssemblerLoader loader = new AssemblerLoader();
-                try {
-                    List<Expression> list = loader.loadFile(asmFile.getAbsolutePath());
+            AssemblerLoader loader = new AssemblerLoader();
+            try {
+                this.memory = new Memory(this.memorySize);
+                List<Expression> list = loader.loadFile(asmFile.getAbsolutePath());
                     
-                    loadDisplay(list);
+                loadDisplay(list);
+                loadMemory(list);
+                System.out.println(this.memory.getInstruction(1));
                     
-                } catch (IllegalArgumentException e) {
-                    JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog",
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog",
         JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (IOException ex) {
-                System.out.println("problem accesssing file"+asmFile.getAbsolutePath());
             }
         } else {
             System.out.println("File access cancelled by user.");
@@ -205,6 +203,12 @@ public class TP1UI extends javax.swing.JFrame {
         System.out.println(String.valueOf(memorySize));
         jFrame1.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+    
+    private void loadMemory(List<Expression> instructions) {
+        for (int i = 0; i < instructions.size(); i++) {
+            this.memory.loadInstruction(null, instructions.get(i).operation, instructions.get(i).operands);
+        }
+    }
     
     private void loadDisplay(List<Expression> instructions) {
         // Create a custom StyledDocument 
@@ -279,6 +283,7 @@ public class TP1UI extends javax.swing.JFrame {
     
     private File asmFile; 
     private int memorySize = 100;
+    private Memory memory;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

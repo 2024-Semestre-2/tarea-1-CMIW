@@ -4,6 +4,8 @@
  */
 package TP1;
 
+import java.util.Arrays;
+
 /**
  *
  * @author someone
@@ -19,5 +21,10 @@ public class Instruction {
         this.operation = operation;
         this.operands = operands;
         this.memoryAddress = memoryAddress;
+    }
+    
+    @Override
+    public String toString(){
+        return "Opcode: "+this.opcode+", Operation: "+this.operation+", Operands: "+Arrays.toString(this.operands)+" Memory Address: "+this.memoryAddress;
     }
 }
