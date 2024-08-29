@@ -52,6 +52,8 @@ public class TP1UI extends javax.swing.JFrame {
         jButtonPlayPause = new javax.swing.JButton();
         jButtonRewind = new javax.swing.JButton();
         jButtonForward = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemOpenFile = new javax.swing.JMenuItem();
@@ -62,7 +64,6 @@ public class TP1UI extends javax.swing.JFrame {
 
         jFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         jFrame1.setTitle("Config Settings");
-        jFrame1.setPreferredSize(new java.awt.Dimension(600, 400));
         jFrame1.setResizable(false);
         jFrame1.setSize(new java.awt.Dimension(600, 400));
 
@@ -108,12 +109,21 @@ public class TP1UI extends javax.swing.JFrame {
 
         jButtonPlayPause.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
         jButtonPlayPause.setIcon(new javax.swing.ImageIcon("/home/someone/Downloads/play-pause(3).png")); // NOI18N
+        jButtonPlayPause.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPlayPauseActionPerformed(evt);
+            }
+        });
 
         jButtonRewind.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
         jButtonRewind.setIcon(new javax.swing.ImageIcon("/home/someone/Downloads/rewind.png")); // NOI18N
 
         jButtonForward.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
         jButtonForward.setIcon(new javax.swing.ImageIcon("/home/someone/Downloads/forward.png")); // NOI18N
+
+        jLabel1.setText("AC");
+
+        jTextField1.setText(if(this.cpu != null) {String.valueOf(this.cpu.ac());} else {"";});
 
         jMenu3.setText("File");
 
@@ -148,23 +158,38 @@ public class TP1UI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(348, 348, 348)
-                .addComponent(jButtonRewind)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonPlayPause)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonForward)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(348, 348, 348)
+                        .addComponent(jButtonRewind)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonPlayPause)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonForward))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(361, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonForward)
-                    .addComponent(jButtonRewind)
-                    .addComponent(jButtonPlayPause)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonForward)
+                            .addComponent(jButtonPlayPause)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonRewind)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -178,11 +203,13 @@ public class TP1UI extends javax.swing.JFrame {
             AssemblerLoader loader = new AssemblerLoader();
             try {
                 this.memory = new Memory(this.memorySize);
+                this.cpu = new CPU();
                 List<Expression> list = loader.loadFile(asmFile.getAbsolutePath());
                     
                 loadDisplay(list);
+                //System.out.println(this.memory.getInstruction(1));
                 loadMemory(list);
-                System.out.println(this.memory.getInstruction(1));
+                //System.out.println(this.memory.getInstruction(1));
                     
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog",
@@ -203,6 +230,24 @@ public class TP1UI extends javax.swing.JFrame {
         System.out.println(String.valueOf(memorySize));
         jFrame1.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButtonPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayPauseActionPerformed
+        if (asmFile == null) {
+            JOptionPane.showMessageDialog(new JFrame(), "Load a file first.", "Dialog",
+        JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+                while (this.cpu.peekInstruction(this.memory) != null) {
+                    this.cpu.execute(this.cpu.fetchInstruction(this.memory));
+                    System.out.println("AC: "+this.cpu.ac()+" AX: "+this.cpu.ax()+" BX: "+this.cpu.bx()+" CX: "+this.cpu.cx()+" DX: "+this.cpu.dx());
+                }
+                    
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog",
+        JOptionPane.ERROR_MESSAGE);
+            }
+    }//GEN-LAST:event_jButtonPlayPauseActionPerformed
     
     private void loadMemory(List<Expression> instructions) {
         for (int i = 0; i < instructions.size(); i++) {
@@ -284,6 +329,7 @@ public class TP1UI extends javax.swing.JFrame {
     private File asmFile; 
     private int memorySize = 100;
     private Memory memory;
+    private CPU cpu;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -292,12 +338,14 @@ public class TP1UI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonRewind;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JFrame jFrame1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelMemorySize;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItemOpenFile;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextFieldMemorySize;
     private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables

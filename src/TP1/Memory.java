@@ -38,7 +38,7 @@ public class Memory {
     }
     
     public Instruction getInstruction(int address) {
-        if (address > instructionAddresSize) { // Assuming 0-19 is OS segment
+        if (address > instructionAddresSize) { 
             throw new IllegalArgumentException("Attempt to access OS segment or out-of-bounds memory address");
         } else {
             return (Instruction) this.memoryArray[address];
