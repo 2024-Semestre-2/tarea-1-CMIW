@@ -6,14 +6,21 @@ package TP1;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.swing.Timer;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -52,8 +59,24 @@ public class TP1UI extends javax.swing.JFrame {
         jButtonPlayPause = new javax.swing.JButton();
         jButtonRewind = new javax.swing.JButton();
         jButtonForward = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jLabelAC = new javax.swing.JLabel();
+        jTextFieldAC = new javax.swing.JTextField();
+        jLabelAX = new javax.swing.JLabel();
+        jTextFieldAX = new javax.swing.JTextField();
+        jLabelBX = new javax.swing.JLabel();
+        jTextFieldBX = new javax.swing.JTextField();
+        jLabelCX = new javax.swing.JLabel();
+        jTextFieldCX = new javax.swing.JTextField();
+        jLabelDX = new javax.swing.JLabel();
+        jTextFieldDX = new javax.swing.JTextField();
+        jLabelRegister = new javax.swing.JLabel();
+        jLabelIR = new javax.swing.JLabel();
+        jTextFieldIR = new javax.swing.JTextField();
+        jLabelPC = new javax.swing.JLabel();
+        jTextFieldPC = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListMemory = new javax.swing.JList<>();
+        jLabelMemory = new javax.swing.JLabel();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemOpenFile = new javax.swing.JMenuItem();
@@ -81,24 +104,26 @@ public class TP1UI extends javax.swing.JFrame {
         jFrame1Layout.setHorizontalGroup(
             jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jFrame1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelMemorySize)
-                .addGap(18, 18, 18)
-                .addComponent(jTextFieldMemorySize, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(391, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame1Layout.createSequentialGroup()
+                        .addContainerGap(522, Short.MAX_VALUE)
+                        .addComponent(jButton1))
+                    .addGroup(jFrame1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabelMemorySize)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldMemorySize, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jFrame1Layout.setVerticalGroup(
             jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jFrame1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(21, 21, 21)
                 .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldMemorySize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelMemorySize))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 340, Short.MAX_VALUE)
+                    .addComponent(jLabelMemorySize)
+                    .addComponent(jTextFieldMemorySize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 325, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -121,9 +146,25 @@ public class TP1UI extends javax.swing.JFrame {
         jButtonForward.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
         jButtonForward.setIcon(new javax.swing.ImageIcon("/home/someone/Downloads/forward.png")); // NOI18N
 
-        jLabel1.setText("AC");
+        jLabelAC.setText("AC");
 
-        jTextField1.setText(if(this.cpu != null) {String.valueOf(this.cpu.ac());} else {"";});
+        jLabelAX.setText("AX");
+
+        jLabelBX.setText("BX");
+
+        jLabelCX.setText("CX");
+
+        jLabelDX.setText("DX");
+
+        jLabelRegister.setText("Registers");
+
+        jLabelIR.setText("IR");
+
+        jLabelPC.setText("PC");
+
+        jScrollPane1.setViewportView(jListMemory);
+
+        jLabelMemory.setText("Memory");
 
         jMenu3.setText("File");
 
@@ -160,36 +201,84 @@ public class TP1UI extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(348, 348, 348)
+                        .addGap(44, 44, 44)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelRegister)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelAC)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldAC, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelAX)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldAX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelBX)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldBX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelCX)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldCX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelDX)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldDX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelIR)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldIR, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelPC)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldPC, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelMemory)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonRewind)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonPlayPause)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonForward))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(361, Short.MAX_VALUE))
+                        .addComponent(jButtonForward)
+                        .addGap(211, 211, 211))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonForward)
-                            .addComponent(jButtonPlayPause)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabelRegister)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabelPC)
+                                .addComponent(jTextFieldPC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabelAC)
+                                .addComponent(jTextFieldAC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelAX)
+                                .addComponent(jTextFieldAX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelBX)
+                                .addComponent(jTextFieldBX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelCX)
+                                .addComponent(jTextFieldCX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelDX)
+                                .addComponent(jTextFieldDX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelIR)
+                                .addComponent(jTextFieldIR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelMemory)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonRewind)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonForward, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonPlayPause, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonRewind, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -204,12 +293,48 @@ public class TP1UI extends javax.swing.JFrame {
             try {
                 this.memory = new Memory(this.memorySize);
                 this.cpu = new CPU();
+                this.rowCounter = -1;
+                this.clearDisplays();
+                
                 List<Expression> list = loader.loadFile(asmFile.getAbsolutePath());
+                DefaultListModel<String> listModel = new DefaultListModel<>();
                     
                 loadDisplay(list);
                 //System.out.println(this.memory.getInstruction(1));
                 loadMemory(list);
                 //System.out.println(this.memory.getInstruction(1));
+                listModel.addAll(memory.getMemoryArray());
+                jListMemory.setModel( listModel );
+                
+                ActionListener aL = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        if (cpu.peekInstruction(memory) != null) {
+                            cpu.execute(cpu.fetchInstruction(memory));
+                            //System.out.println("AC: "+cpu.ac()+" AX: "+cpu.ax()+" BX: "+cpu.bx()+" CX: "+cpu.cx()+" DX: "+cpu.dx());
+                            
+                            rowCounter += 1;
+                            clearDisplays();
+                            loadDisplay(list);
+                            jTextFieldAC.setText(String.valueOf(cpu.ac()));
+                            jTextFieldAX.setText(String.valueOf(cpu.ax()));
+                            jTextFieldBX.setText(String.valueOf(cpu.bx()));
+                            jTextFieldCX.setText(String.valueOf(cpu.cx()));
+                            jTextFieldDX.setText(String.valueOf(cpu.dx()));
+                            jTextFieldPC.setText(String.valueOf(cpu.pc()));
+                            jTextFieldIR.setText(cpu.ir());
+                            
+                            DefaultListModel<String> listModel = new DefaultListModel<>();
+                            listModel.addAll(memory.getMemoryArray());
+                            jListMemory.setModel( listModel );
+                        } else {
+                            controller.stop();
+                        }
+                    }
+                };
+                
+                this.controller = new Timer(1000, aL);//create the timer which calls the actionperformed method for every 1000 millisecond(1 second=1000 millisecond)
+                this.controller.setRepeats(true);
                     
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog",
@@ -237,16 +362,13 @@ public class TP1UI extends javax.swing.JFrame {
         JOptionPane.ERROR_MESSAGE);
             return;
         }
-        try {
-                while (this.cpu.peekInstruction(this.memory) != null) {
-                    this.cpu.execute(this.cpu.fetchInstruction(this.memory));
-                    System.out.println("AC: "+this.cpu.ac()+" AX: "+this.cpu.ax()+" BX: "+this.cpu.bx()+" CX: "+this.cpu.cx()+" DX: "+this.cpu.dx());
-                }
-                    
-            } catch (IllegalArgumentException e) {
-                JOptionPane.showMessageDialog(new JFrame(), e.getMessage(), "Dialog",
-        JOptionPane.ERROR_MESSAGE);
-            }
+        if (this.simulationState == null || this.simulationState == "Paused") {
+            this.simulationState = "Active";
+            this.controller.start();
+        } else {
+            this.simulationState = "Paused";
+            this.controller.stop();
+        }
     }//GEN-LAST:event_jButtonPlayPauseActionPerformed
     
     private void loadMemory(List<Expression> instructions) {
@@ -255,14 +377,34 @@ public class TP1UI extends javax.swing.JFrame {
         }
     }
     
+    private void clearDisplays() {
+        jTextPane1.setText("");
+        jTextFieldAC.setText("");
+        jTextFieldAX.setText("");
+        jTextFieldBX.setText("");
+        jTextFieldCX.setText("");
+        jTextFieldDX.setText("");
+        jTextFieldPC.setText("");
+        jTextFieldIR.setText("");
+    }
+    
     private void loadDisplay(List<Expression> instructions) {
         // Create a custom StyledDocument 
         StyledDocument doc = jTextPane1.getStyledDocument(); 
                 
         // Create and set a Style for the text 
-        Style style = doc.addStyle("customStyle", null); 
-        StyleConstants.setForeground(style, Color.BLACK); 
-        StyleConstants.setBold(style, true); 
+        Style bold = doc.addStyle("bold", null); 
+        StyleConstants.setForeground(bold, Color.BLACK); 
+        StyleConstants.setBold(bold, true); 
+        
+        Style selectBackground = doc.addStyle("selectBackground", null); 
+        StyleConstants.setBackground(selectBackground, Color.GREEN);
+        StyleConstants.setForeground(selectBackground, Color.BLACK);
+        
+        Style selectBackgroundBold = doc.addStyle("selectBackgroundBold", null); 
+        StyleConstants.setBackground(selectBackgroundBold, Color.GREEN);
+        StyleConstants.setForeground(selectBackgroundBold, Color.BLACK);
+        StyleConstants.setBold(selectBackgroundBold, true); 
                     
         // Set the StyledDocument 
         jTextPane1.setStyledDocument(doc); 
@@ -270,20 +412,38 @@ public class TP1UI extends javax.swing.JFrame {
         for (int i = 0; i < instructions.size(); i++) {
             // Insert text with custom style 
             try { 
-                doc.insertString(doc.getLength(), String.valueOf(instructions.get(i).row)+"  ", null);
-                doc.insertString(doc.getLength(), instructions.get(i).operation, style); 
+                if ( i == rowCounter) {
+                    doc.insertString(doc.getLength(), String.valueOf(instructions.get(i).row)+"  ", selectBackground);
+                    doc.insertString(doc.getLength(), instructions.get(i).operation, selectBackgroundBold); 
 
-                switch (instructions.get(i).operation.toUpperCase()) {
-                    case "MOV":
-                        doc.insertString(doc.getLength(), " "+instructions.get(i).operands[0]+",", null);
-                        doc.insertString(doc.getLength(), " "+instructions.get(i).operands[1]+"\n", null);
-                        break;
-                    case "ADD":
-                    case "SUB":
-                    case "LOAD":
-                    case "STORE":
-                        doc.insertString(doc.getLength(), " "+instructions.get(i).operands[0]+"\n", null);
-                    default:
+                    switch (instructions.get(i).operation.toUpperCase()) {
+                        case "MOV":
+                            doc.insertString(doc.getLength(), " "+instructions.get(i).operands[0]+",", selectBackground);
+                            doc.insertString(doc.getLength(), " "+instructions.get(i).operands[1]+"\n", selectBackground);
+                            break;
+                        case "ADD":
+                        case "SUB":
+                        case "LOAD":
+                        case "STORE":
+                            doc.insertString(doc.getLength(), " "+instructions.get(i).operands[0]+"\n", selectBackground);
+                        default:
+                    }
+                } else {
+                    doc.insertString(doc.getLength(), String.valueOf(instructions.get(i).row)+"  ", null);
+                    doc.insertString(doc.getLength(), instructions.get(i).operation, bold); 
+
+                    switch (instructions.get(i).operation.toUpperCase()) {
+                        case "MOV":
+                            doc.insertString(doc.getLength(), " "+instructions.get(i).operands[0]+",", null);
+                            doc.insertString(doc.getLength(), " "+instructions.get(i).operands[1]+"\n", null);
+                            break;
+                        case "ADD":
+                        case "SUB":
+                        case "LOAD":
+                        case "STORE":
+                            doc.insertString(doc.getLength(), " "+instructions.get(i).operands[0]+"\n", null);
+                        default:
+                    }
                 }
             } catch (BadLocationException e) { 
                 e.printStackTrace(); 
@@ -330,6 +490,9 @@ public class TP1UI extends javax.swing.JFrame {
     private int memorySize = 100;
     private Memory memory;
     private CPU cpu;
+    private Timer controller;
+    private String simulationState;
+    private int rowCounter;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -338,15 +501,31 @@ public class TP1UI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonRewind;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JFrame jFrame1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelAC;
+    private javax.swing.JLabel jLabelAX;
+    private javax.swing.JLabel jLabelBX;
+    private javax.swing.JLabel jLabelCX;
+    private javax.swing.JLabel jLabelDX;
+    private javax.swing.JLabel jLabelIR;
+    private javax.swing.JLabel jLabelMemory;
     private javax.swing.JLabel jLabelMemorySize;
+    private javax.swing.JLabel jLabelPC;
+    private javax.swing.JLabel jLabelRegister;
+    private javax.swing.JList<String> jListMemory;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItemOpenFile;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFieldAC;
+    private javax.swing.JTextField jTextFieldAX;
+    private javax.swing.JTextField jTextFieldBX;
+    private javax.swing.JTextField jTextFieldCX;
+    private javax.swing.JTextField jTextFieldDX;
+    private javax.swing.JTextField jTextFieldIR;
     private javax.swing.JTextField jTextFieldMemorySize;
+    private javax.swing.JTextField jTextFieldPC;
     private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 }

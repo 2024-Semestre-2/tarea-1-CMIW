@@ -4,7 +4,11 @@
  */
 package TP1;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -30,7 +34,7 @@ public class Memory {
     }
     
     public void loadInstruction(String opcode, String operation, String[] operands) {
-        if (this.nextInstructionAddress > instructionAddresSize) { // Assuming 0-19 is OS segment
+        if (this.nextInstructionAddress > instructionAddresSize) {
             throw new IllegalArgumentException("Attempt to access OS segment or out-of-bounds memory address");
         }
         memoryArray[this.nextInstructionAddress] = new Instruction(opcode, operation, operands, this.nextInstructionAddress);
@@ -45,8 +49,8 @@ public class Memory {
         }
     }
     
-    public Object[] getMemoryArray() {
-        return Arrays.copyOfRange(this.memoryArray, 0, instructionAddresSize);
+    public List<String> getMemoryArray() {
+        return Arrays.asList(this.memoryArray).stream().map(object -> Objects.toString(object, null)).collect(Collectors.toList());
     }
     
     public int instructionAddresSize() {

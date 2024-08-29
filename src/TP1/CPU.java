@@ -30,7 +30,8 @@ public class CPU {
     public Instruction fetchInstruction(Memory memory) {
         try {
             this.PC++;
-            return memory.getInstruction(this.PC-1);
+            this.IR = memory.getInstruction(this.PC-1);
+            return this.IR;
         } catch (IllegalArgumentException e) {
             this.PC--;
             throw e;
@@ -154,5 +155,13 @@ public class CPU {
     
     public int ac() {
         return this.AC;
+    }
+    
+    public String ir() {
+        return this.IR.operation;
+    }
+    
+    public int pc() {
+        return this.PC;
     }
 }
