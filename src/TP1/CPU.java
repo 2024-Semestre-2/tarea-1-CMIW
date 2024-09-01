@@ -157,11 +157,12 @@ public class CPU {
         return this.AC;
     }
     
-    public String ir() {
-        return this.IR.operation;
+    public Instruction ir() {
+        return this.IR;
     }
     
     public int pc() {
         return this.PC;
     }
+    
 }

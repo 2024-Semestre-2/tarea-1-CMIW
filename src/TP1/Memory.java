@@ -22,12 +22,11 @@ public class Memory {
     private int dataAddressSize = 100;
     private int memorySize;
     
-    public Memory(int size) {
-        if (size >= this.dataAddressSize + this.instructionAddresSize) {
-            this.memorySize = size;
-        } else {
-            this.memorySize = this.dataAddressSize + this.instructionAddresSize;
-        }
+    public Memory(int size, int user, int os) {
+        this.memorySize = size;
+        this.instructionAddresSize = user;
+        this.dataAddressSize = user + os;
+        
         this.nextInstructionAddress = 0;
         this.nextDataAddress = instructionAddresSize;
         this.memoryArray = new Object[this.memorySize];
@@ -35,7 +34,7 @@ public class Memory {
     
     public void loadInstruction(String opcode, String operation, String[] operands) {
         if (this.nextInstructionAddress > instructionAddresSize) {
-            throw new IllegalArgumentException("Attempt to access OS segment or out-of-bounds memory address");
+            throw new IllegalArgumentException("Attempt to access OS segment or out-of-bounds memory address, not enough space in user memory");
         }
         memoryArray[this.nextInstructionAddress] = new Instruction(opcode, operation, operands, this.nextInstructionAddress);
         this.nextInstructionAddress++;
@@ -46,6 +45,21 @@ public class Memory {
             throw new IllegalArgumentException("Attempt to access OS segment or out-of-bounds memory address");
         } else {
             return (Instruction) this.memoryArray[address];
+        }
+    }
+    
+    public void loadProcess(PCB process) {
+        if (this.nextDataAddress > dataAddressSize) {
+            throw new IllegalArgumentException("Out-of-bounds memory address, not enough space in OS memory");
+        }
+        process.setMemoryAddress(this.nextDataAddress);
+        memoryArray[this.nextDataAddress] = process;
+        this.nextDataAddress++;
+    }
+    
+    public void updateProcess(String state) {
+        if (memoryArray[this.nextDataAddress-1] != null) {
+            ((PCB) memoryArray[this.nextDataAddress-1]).updateState(state);
         }
     }
     

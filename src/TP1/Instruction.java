@@ -25,6 +25,6 @@ public class Instruction {
     
     @Override
     public String toString(){
-        return "Memory Address: "+this.memoryAddress+" Opcode: "+this.opcode+", Operation: "+this.operation+", Operands: "+Arrays.toString(this.operands);
+        return "Address: "+this.memoryAddress+" Opcode: "+this.opcode+", Operation: "+this.operation+", Operands: "+Arrays.toString(this.operands);
     }
 }
