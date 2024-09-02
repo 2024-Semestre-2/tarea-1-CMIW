@@ -152,6 +152,7 @@ public class TP1UI extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jScrollPane2.setViewportView(jTextPane1);
 
@@ -165,19 +166,33 @@ public class TP1UI extends javax.swing.JFrame {
 
         jLabelAC.setText("AC");
 
+        jTextFieldAC.setEditable(false);
+
         jLabelAX.setText("AX");
+
+        jTextFieldAX.setEditable(false);
 
         jLabelBX.setText("BX");
 
+        jTextFieldBX.setEditable(false);
+
         jLabelCX.setText("CX");
 
+        jTextFieldCX.setEditable(false);
+
         jLabelDX.setText("DX");
+
+        jTextFieldDX.setEditable(false);
 
         jLabelRegister.setText("Registers");
 
         jLabelIR.setText("IR");
 
+        jTextFieldIR.setEditable(false);
+
         jLabelPC.setText("PC");
+
+        jTextFieldPC.setEditable(false);
 
         jScrollPane1.setViewportView(jListMemory);
 

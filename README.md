@@ -3,6 +3,6 @@
 ## Integrantes:
 ### 2016135864 Ian Joel Wright Arce
 
-### Estado del proyecto: Escala de 1 a 5, 1 siendo completo y 5 muy malo
-### Enlace del video: (Si esto fue solicitado)
+### Estado del proyecto: 1
+### https://youtu.be/BpOxDiGUZuQ
 Recordar que el video debe ser público y con sonido para ser visto por el profesor

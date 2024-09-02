@@ -149,6 +149,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar2"/>
@@ -304,6 +305,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldAC">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelAX">
       <Properties>
@@ -311,6 +315,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldAX">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelBX">
       <Properties>
@@ -318,6 +325,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldBX">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelCX">
       <Properties>
@@ -325,6 +335,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldCX">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelDX">
       <Properties>
@@ -332,6 +345,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldDX">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelRegister">
       <Properties>
@@ -344,6 +360,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldIR">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelPC">
       <Properties>
@@ -351,6 +370,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldPC">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
